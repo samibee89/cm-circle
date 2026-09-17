@@ -1,0 +1,84 @@
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  padding: 24px;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-label {
+  color: var(--color-pink);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.login-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 32px;
+  margin: 0 0 12px;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.login-form input {
+  font-family: var(--font-body);
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.login-form button[type='submit'] {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 999px;
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.login-form button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.login-toggle {
+  background: none;
+  border: none;
+  color: var(--color-blue);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.login-error {
+  color: #d33;
+  font-size: 13px;
+  margin: 0;
+}
+
+.login-message {
+  color: var(--color-blue);
+  font-size: 13px;
+  margin: 0;
+}
