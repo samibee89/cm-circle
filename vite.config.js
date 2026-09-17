@@ -4,6 +4,12 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    // Bind to 0.0.0.0 (all network interfaces), not just localhost, so
+    // other devices on the same Wi-Fi (e.g. a phone) can reach the dev
+    // server at the Mac's LAN IP.
+    host: true,
+  },
   plugins: [
     react(),
     VitePWA({

@@ -12,6 +12,10 @@
   --color-bg: var(--color-white);
   --color-accent: var(--color-blue);
   --color-accent-alt: var(--color-pink);
+  /* Subtle warm-neutral surface for card-on-background contrast (list
+     cards, filter sheet) — not in the brand brief's core palette, chosen
+     to sit unobtrusively between white and light gray. */
+  --color-surface-muted: #f5f3ef;
 
   /* Fonts */
   --font-heading: 'Playfair Display', serif;

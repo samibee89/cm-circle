@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { CATEGORIES } from '../lib/categories'
 import './Filters.css'
 
@@ -12,33 +13,73 @@ export default function Filters({
   onAuthorChange,
   authors,
 }) {
-  return (
-    <div className="filters">
-      <select
-        value={categoryFilter}
-        onChange={(e) => onCategoryChange(e.target.value)}
-        aria-label="Filter by category"
-      >
-        <option value="all">All categories</option>
-        {CATEGORIES.map((category) => (
-          <option key={category} value={category}>
-            {capitalize(category)}
-          </option>
-        ))}
-      </select>
+  const [open, setOpen] = useState(false)
 
-      <select
-        value={authorFilter}
-        onChange={(e) => onAuthorChange(e.target.value)}
-        aria-label="Filter by who added it"
-      >
-        <option value="all">Everyone</option>
-        {authors.map((author) => (
-          <option key={author.id} value={author.id}>
-            {author.name}
-          </option>
-        ))}
-      </select>
-    </div>
+  const activeCount = (categoryFilter !== 'all' ? 1 : 0) + (authorFilter !== 'all' ? 1 : 0)
+
+  return (
+    <>
+      <div className="filters-bar">
+        <button type="button" className="filters-trigger" onClick={() => setOpen(true)}>
+          Filters
+          {activeCount > 0 && <span className="filters-badge">{activeCount}</span>}
+        </button>
+      </div>
+
+      {open && (
+        <div className="filters-sheet-backdrop" onClick={() => setOpen(false)}>
+          <div className="filters-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="filters-sheet-handle" />
+            <h2 className="filters-sheet-heading">Filters</h2>
+
+            <p className="filters-sheet-label">Category</p>
+            <div className="filters-chip-row">
+              <button
+                type="button"
+                className={categoryFilter === 'all' ? 'filters-chip active' : 'filters-chip'}
+                onClick={() => onCategoryChange('all')}
+              >
+                All
+              </button>
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  className={categoryFilter === category ? 'filters-chip active' : 'filters-chip'}
+                  onClick={() => onCategoryChange(category)}
+                >
+                  {capitalize(category)}
+                </button>
+              ))}
+            </div>
+
+            <p className="filters-sheet-label">Added by</p>
+            <div className="filters-list">
+              <button
+                type="button"
+                className={authorFilter === 'all' ? 'filters-list-row active' : 'filters-list-row'}
+                onClick={() => onAuthorChange('all')}
+              >
+                Everyone
+              </button>
+              {authors.map((author) => (
+                <button
+                  key={author.id}
+                  type="button"
+                  className={authorFilter === author.id ? 'filters-list-row active' : 'filters-list-row'}
+                  onClick={() => onAuthorChange(author.id)}
+                >
+                  {author.name}
+                </button>
+              ))}
+            </div>
+
+            <button type="button" className="filters-sheet-done" onClick={() => setOpen(false)}>
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   )
 }

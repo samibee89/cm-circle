@@ -4,8 +4,16 @@
   box-sizing: border-box;
 }
 
+html,
 body {
+  height: 100%;
   margin: 0;
+  /* iOS Safari's rubber-band bounce scrolls the document itself, regardless
+     of whether its content actually overflows — without this, the whole
+     page (header, filters, bottom nav included) can be dragged around by
+     touch. Only the map's own Leaflet container should ever pan. */
+  overflow: hidden;
+  overscroll-behavior: none;
   font-family: var(--font-body);
   color: var(--color-text);
   background: var(--color-bg);
@@ -18,5 +26,5 @@ h3 {
 }
 
 #root {
-  min-height: 100vh;
+  height: 100%;
 }
