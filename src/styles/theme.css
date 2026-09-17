@@ -21,3 +21,14 @@
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
 }
+
+/* Brand's signature gradient-text treatment. -webkit-text-fill-color is
+   the WebKit-required companion to background-clip: text — without it,
+   Safari can fail to render the clip and leave the text invisible. */
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}

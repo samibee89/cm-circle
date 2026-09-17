@@ -28,11 +28,6 @@
   font-weight: 700;
   font-size: 24px;
   margin: 4px 0 0;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
 }
 
 .add-place-cancel {

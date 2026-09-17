@@ -1,9 +1,9 @@
 .bottom-nav {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-around;
-  height: 60px;
+  height: 76px;
   background: var(--color-white);
   border-top: 1px solid #eee;
   /* Keeps the bar clear of the home-indicator area on notched iPhones when
@@ -20,11 +20,20 @@
 
 .nav-tab {
   flex: 1;
-  height: 100%;
+  /* Bar height (64px) and flex width already exceed the 44x44px minimum
+     comfortably; this is just an explicit floor per the accessibility
+     guideline, in case either changes later. */
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 12px;
+  gap: 4px;
   border: none;
   background: none;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 13px;
   color: #999;
   cursor: pointer;
 }
@@ -32,22 +41,4 @@
 .nav-tab.active {
   color: var(--color-blue);
   font-weight: 600;
-}
-
-.nav-add-fab {
-  flex-shrink: 0;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: none;
-  background: var(--gradient-primary);
-  color: var(--color-white);
-  font-size: 28px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transform: translateY(-14px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

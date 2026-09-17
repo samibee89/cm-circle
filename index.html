@@ -6,10 +6,13 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <!-- Content now extends under the status bar (viewport-fit=cover); this
-         makes the status bar transparent so our own dark header shows
-         through it, rather than leaving a mismatched opaque white strip. -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- "default" gives an opaque, iOS-drawn status bar with dark icons,
+         which iOS reserves space for itself (content doesn't render
+         underneath). Needed because our header is now light-colored —
+         the only translucent/overlay option ("black-translucent") always
+         renders light-colored system icons, which would go unreadable
+         against a light header. -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

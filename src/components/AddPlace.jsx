@@ -102,7 +102,7 @@ export default function AddPlace({ onSave, onCancel }) {
       <div className="add-place-header">
         <div>
           <p className="add-place-label">New place</p>
-          <h1 className="add-place-heading">Add to the journal</h1>
+          <h1 className="add-place-heading gradient-text">Add to the journal</h1>
         </div>
         <button type="button" className="add-place-cancel" onClick={onCancel}>
           Cancel

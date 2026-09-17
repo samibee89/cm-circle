@@ -29,11 +29,6 @@
   font-weight: 700;
   font-size: 32px;
   margin: 0 0 12px;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
 }
 
 .login-form input {

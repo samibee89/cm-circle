@@ -30,7 +30,7 @@ export default function Filters({
         <div className="filters-sheet-backdrop" onClick={() => setOpen(false)}>
           <div className="filters-sheet" onClick={(e) => e.stopPropagation()}>
             <div className="filters-sheet-handle" />
-            <h2 className="filters-sheet-heading">Filters</h2>
+            <h2 className="filters-sheet-heading gradient-text">Filters</h2>
 
             <p className="filters-sheet-label">Category</p>
             <div className="filters-chip-row">

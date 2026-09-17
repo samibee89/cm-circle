@@ -49,16 +49,21 @@ export default function AppShell({ session }) {
 
   return (
     <div className="app-shell">
-      <header className="app-header">
-        <span className="app-header-title">CM Circle</span>
-        <button
-          type="button"
-          className="app-header-signout"
-          onClick={() => supabase.auth.signOut()}
-        >
-          Sign out
-        </button>
-      </header>
+      {activeTab !== 'add' && (
+        <header className="app-header">
+          <div className="app-header-titles">
+            <p className="app-header-label">Chiang Mai</p>
+            <h1 className="app-header-title gradient-text">Friendship Circle</h1>
+          </div>
+          <button
+            type="button"
+            className="app-header-signout"
+            onClick={() => supabase.auth.signOut()}
+          >
+            Sign out
+          </button>
+        </header>
+      )}
 
       {activeTab !== 'add' && (
         <Filters
@@ -71,7 +76,19 @@ export default function AppShell({ session }) {
       )}
 
       <main className="app-main">
-        {activeTab === 'map' && <MapView places={filteredPlaces} />}
+        {activeTab === 'map' && (
+          <div className="map-tab">
+            <MapView places={filteredPlaces} />
+            <button
+              type="button"
+              className="map-add-fab"
+              onClick={() => setActiveTab('add')}
+              aria-label="Add a place"
+            >
+              +
+            </button>
+          </div>
+        )}
         {activeTab === 'list' && <PlaceList places={filteredPlaces} />}
         {activeTab === 'add' && (
           <AddPlace onSave={handleAddPlace} onCancel={() => setActiveTab('map')} />

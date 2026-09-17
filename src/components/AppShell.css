@@ -7,24 +7,30 @@
 .app-header {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: 10px 14px;
+  padding: 14px;
   /* Also covers the notch/status-bar area on iOS when installed as a
-     standalone PWA. */
-  padding-top: calc(10px + env(safe-area-inset-top));
-  background: var(--color-black);
+     standalone PWA (a no-op with the "default" status-bar style, but
+     harmless to leave in place). */
+  padding-top: calc(14px + env(safe-area-inset-top));
+  background: var(--color-surface-muted);
+}
+
+.app-header-label {
+  color: var(--color-pink);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0 0 2px;
 }
 
 .app-header-title {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 18px;
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  font-size: 28px;
+  margin: 0;
 }
 
 .app-header-signout {
@@ -34,10 +40,37 @@
   font-size: 13px;
   color: var(--color-blue);
   cursor: pointer;
+  margin-top: 4px;
 }
 
 .app-main {
   flex: 1;
   min-height: 0;
   overflow: hidden;
+}
+
+.map-tab {
+  position: relative;
+  height: 100%;
+}
+
+.map-add-fab {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  font-size: 28px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  /* Above Leaflet's own layers/controls (up to z-index 1000). */
+  z-index: 1500;
 }
