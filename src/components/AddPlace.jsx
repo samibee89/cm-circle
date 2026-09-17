@@ -242,7 +242,7 @@ export default function AddPlace({ onSave, onCancel }) {
           <div className="add-place-new-category">
             <input
               type="text"
-              placeholder="Category name"
+              placeholder="Name"
               value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
             />

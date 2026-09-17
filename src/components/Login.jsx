@@ -46,7 +46,7 @@ export default function Login() {
 
       <div className="login-form-wrapper">
         <form onSubmit={handleSubmit} className="login-form">
-          <p className="login-label">CM Circle</p>
+          <p className="login-label">Chiang Mai Women's Circle</p>
           <h1 className="login-heading gradient-text">
             {mode === 'signUp' ? 'Create your account' : 'Welcome back'}
           </h1>

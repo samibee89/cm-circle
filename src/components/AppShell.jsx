@@ -68,7 +68,7 @@ export default function AppShell({ session }) {
         {showChrome && (
           <header className="app-header">
             <div className="app-header-titles">
-              <p className="app-header-label">Chiang Mai</p>
+              <p className="app-header-label">Chiang Mai Circle</p>
               <h1 className="app-header-title gradient-text">Women's Community</h1>
             </div>
             <button
