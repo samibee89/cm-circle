@@ -9,13 +9,14 @@ import BottomNav from './BottomNav'
 import Profile from './Profile'
 import ZoomTip from './ZoomTip'
 import { getInitials } from '../lib/initials'
+import { CategoriesProvider } from '../lib/CategoriesContext'
 import './AppShell.css'
 
 export default function AppShell({ session }) {
   const [places, setPlaces] = useState([])
   const [activeTab, setActiveTab] = useState('map') // 'map' | 'list' | 'add' | 'profile'
   const [categoryFilter, setCategoryFilter] = useState([]) // empty = no category filter
-  const [authorFilter, setAuthorFilter] = useState('all')
+  const [authorFilter, setAuthorFilter] = useState([]) // empty = everyone
   const displayName = session.user.user_metadata?.display_name ?? 'Unknown'
   // Header, filters, and bottom nav are all hidden on the two focused,
   // full-screen flows (Add, Profile) — this one flag keeps that condition
@@ -47,7 +48,8 @@ export default function AppShell({ session }) {
       if (categoryFilter.length > 0 && !place.category.some((c) => categoryFilter.includes(c))) {
         return false
       }
-      if (authorFilter !== 'all' && place.created_by !== authorFilter) return false
+      // Matches if the place was added by ANY of the selected people.
+      if (authorFilter.length > 0 && !authorFilter.includes(place.created_by)) return false
       return true
     })
   }, [places, categoryFilter, authorFilter])
@@ -59,64 +61,66 @@ export default function AppShell({ session }) {
   }
 
   return (
-    <div className="app-shell">
-      <ZoomTip />
+    <CategoriesProvider>
+      <div className="app-shell">
+        <ZoomTip />
 
-      {showChrome && (
-        <header className="app-header">
-          <div className="app-header-titles">
-            <p className="app-header-label">Chiang Mai</p>
-            <h1 className="app-header-title gradient-text">Women's Circle</h1>
-          </div>
-          <button
-            type="button"
-            className="app-header-avatar"
-            onClick={() => setActiveTab('profile')}
-            aria-label="Open profile"
-          >
-            {getInitials(displayName)}
-          </button>
-        </header>
-      )}
-
-      {showChrome && (
-        <Filters
-          categoryFilter={categoryFilter}
-          onCategoryChange={setCategoryFilter}
-          authorFilter={authorFilter}
-          onAuthorChange={setAuthorFilter}
-          authors={authors}
-        />
-      )}
-
-      <main className="app-main">
-        {activeTab === 'map' && (
-          <div className="map-tab">
-            <MapView places={filteredPlaces} />
+        {showChrome && (
+          <header className="app-header">
+            <div className="app-header-titles">
+              <p className="app-header-label">Chiang Mai</p>
+              <h1 className="app-header-title gradient-text">Women's Community</h1>
+            </div>
             <button
               type="button"
-              className="map-add-fab"
-              onClick={() => setActiveTab('add')}
-              aria-label="Add a place"
+              className="app-header-avatar"
+              onClick={() => setActiveTab('profile')}
+              aria-label="Open profile"
             >
-              +
+              {getInitials(displayName)}
             </button>
-          </div>
+          </header>
         )}
-        {activeTab === 'list' && <PlaceList places={filteredPlaces} />}
-        {activeTab === 'add' && (
-          <AddPlace onSave={handleAddPlace} onCancel={() => setActiveTab('map')} />
-        )}
-        {activeTab === 'profile' && (
-          <Profile
-            displayName={displayName}
-            onSignOut={() => supabase.auth.signOut()}
-            onClose={() => setActiveTab('map')}
+
+        {showChrome && (
+          <Filters
+            categoryFilter={categoryFilter}
+            onCategoryChange={setCategoryFilter}
+            authorFilter={authorFilter}
+            onAuthorChange={setAuthorFilter}
+            authors={authors}
           />
         )}
-      </main>
 
-      {showChrome && <BottomNav activeTab={activeTab} onChange={setActiveTab} />}
-    </div>
+        <main className="app-main">
+          {activeTab === 'map' && (
+            <div className="map-tab">
+              <MapView places={filteredPlaces} />
+              <button
+                type="button"
+                className="map-add-fab"
+                onClick={() => setActiveTab('add')}
+                aria-label="Add a place"
+              >
+                +
+              </button>
+            </div>
+          )}
+          {activeTab === 'list' && <PlaceList places={filteredPlaces} />}
+          {activeTab === 'add' && (
+            <AddPlace onSave={handleAddPlace} onCancel={() => setActiveTab('map')} />
+          )}
+          {activeTab === 'profile' && (
+            <Profile
+              displayName={displayName}
+              onSignOut={() => supabase.auth.signOut()}
+              onClose={() => setActiveTab('map')}
+            />
+          )}
+        </main>
+
+        {showChrome && <BottomNav activeTab={activeTab} onChange={setActiveTab} />}
+      </div>
+    </CategoriesProvider>
   )
 }

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet'
 import '../lib/leafletIcons'
 import 'leaflet/dist/leaflet.css'
-import { CATEGORIES } from '../lib/categories'
+import { useCategories } from '../lib/CategoriesContext'
+import { slugify } from '../lib/categoriesApi'
 import { searchAddress } from '../lib/geocode'
+import { TILE_STYLES, TILE_ATTRIBUTION, TILE_SUBDOMAINS, TILE_MAX_ZOOM, useMapStyle } from '../lib/mapTiles'
 import './AddPlace.css'
 
 const CHIANG_MAI_CENTER = [18.7883, 98.9853]
@@ -31,8 +33,12 @@ function RecenterOnPosition({ position }) {
 }
 
 export default function AddPlace({ onSave, onCancel }) {
+  const { categories, addCategory } = useCategories()
+  // Reflects whichever style was last chosen via the main map's toggle —
+  // this screen doesn't need its own toggle control.
+  const [mapStyle] = useMapStyle()
   const [name, setName] = useState('')
-  const [categories, setCategories] = useState([])
+  const [selectedCategories, setSelectedCategories] = useState([])
   const [note, setNote] = useState('')
   const [position, setPosition] = useState(null)
   const [query, setQuery] = useState('')
@@ -40,6 +46,12 @@ export default function AddPlace({ onSave, onCancel }) {
   const [searching, setSearching] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
+
+  const [addingCategory, setAddingCategory] = useState(false)
+  const [newCategoryName, setNewCategoryName] = useState('')
+  const [newCategoryEmoji, setNewCategoryEmoji] = useState('')
+  const [creatingCategory, setCreatingCategory] = useState(false)
+  const [newCategoryError, setNewCategoryError] = useState(null)
 
   // Debounce: only hit Nominatim ~500ms after typing pauses, not on every
   // keystroke — it's a shared free service, and firing a request per
@@ -74,9 +86,40 @@ export default function AddPlace({ onSave, onCancel }) {
   }
 
   function toggleCategory(value) {
-    setCategories((current) =>
+    setSelectedCategories((current) =>
       current.includes(value) ? current.filter((c) => c !== value) : [...current, value],
     )
+  }
+
+  async function handleCreateCategory(e) {
+    e.preventDefault()
+    setNewCategoryError(null)
+
+    const label = newCategoryName.trim()
+    const emoji = newCategoryEmoji.trim()
+    if (!label) {
+      setNewCategoryError('Give the category a name.')
+      return
+    }
+    if (!emoji) {
+      setNewCategoryError('Pick an emoji for it.')
+      return
+    }
+
+    setCreatingCategory(true)
+    try {
+      const created = await addCategory({ value: slugify(label), label, emoji })
+      setSelectedCategories((current) =>
+        current.includes(created.value) ? current : [...current, created.value],
+      )
+      setNewCategoryName('')
+      setNewCategoryEmoji('')
+      setAddingCategory(false)
+    } catch (err) {
+      setNewCategoryError(err.message)
+    } finally {
+      setCreatingCategory(false)
+    }
   }
 
   async function handleSubmit(e) {
@@ -87,7 +130,7 @@ export default function AddPlace({ onSave, onCancel }) {
       setError('Drop a pin or search for an address first.')
       return
     }
-    if (categories.length === 0) {
+    if (selectedCategories.length === 0) {
       setError('Select at least one category.')
       return
     }
@@ -96,7 +139,7 @@ export default function AddPlace({ onSave, onCancel }) {
     try {
       await onSave({
         name,
-        category: categories,
+        category: selectedCategories,
         note: note || null,
         lat: position.lat,
         lng: position.lng,
@@ -149,8 +192,10 @@ export default function AddPlace({ onSave, onCancel }) {
           style={{ height: '220px', width: '100%' }}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution={TILE_ATTRIBUTION}
+            url={TILE_STYLES[mapStyle].url}
+            subdomains={TILE_SUBDOMAINS}
+            maxZoom={TILE_MAX_ZOOM}
           />
           <ClickToPlacePin onPick={setPosition} />
           <RecenterOnPosition position={position} />
@@ -168,12 +213,12 @@ export default function AddPlace({ onSave, onCancel }) {
         />
 
         <div className="add-place-category-row">
-          {CATEGORIES.map((c) => (
+          {categories.map((c) => (
             <button
               key={c.value}
               type="button"
               className={
-                categories.includes(c.value)
+                selectedCategories.includes(c.value)
                   ? 'add-place-category-chip active'
                   : 'add-place-category-chip'
               }
@@ -182,7 +227,54 @@ export default function AddPlace({ onSave, onCancel }) {
               {c.emoji} {c.label}
             </button>
           ))}
+          {!addingCategory && (
+            <button
+              type="button"
+              className="add-place-category-chip add-place-category-new"
+              onClick={() => setAddingCategory(true)}
+            >
+              + New category
+            </button>
+          )}
         </div>
+
+        {addingCategory && (
+          <div className="add-place-new-category">
+            <input
+              type="text"
+              placeholder="Category name"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="🎉"
+              className="add-place-new-category-emoji"
+              value={newCategoryEmoji}
+              onChange={(e) => setNewCategoryEmoji(e.target.value)}
+              maxLength={4}
+            />
+            <button
+              type="button"
+              className="add-place-new-category-save"
+              onClick={handleCreateCategory}
+              disabled={creatingCategory}
+            >
+              {creatingCategory ? 'Adding…' : 'Add'}
+            </button>
+            <button
+              type="button"
+              className="add-place-new-category-cancel"
+              onClick={() => {
+                setAddingCategory(false)
+                setNewCategoryError(null)
+              }}
+            >
+              Cancel
+            </button>
+            {newCategoryError && <p className="add-place-error">{newCategoryError}</p>}
+          </div>
+        )}
 
         <textarea
           placeholder="Note (optional)"

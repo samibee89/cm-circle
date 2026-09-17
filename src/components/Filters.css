@@ -66,11 +66,29 @@
   margin: 0 auto 12px;
 }
 
+.filters-sheet-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .filters-sheet-heading {
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 22px;
   margin: 0;
+}
+
+.filters-clear {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-blue);
+  cursor: pointer;
 }
 
 .filters-sheet-label {
@@ -104,36 +122,6 @@
   border: none;
   background: var(--gradient-primary);
   color: var(--color-white);
-  font-weight: 600;
-}
-
-.filters-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  /* Bounded independent scroll region — with only 2-3 people today this
-     never kicks in, but it stops the list (and therefore the whole sheet)
-     from growing without limit as more members join. */
-  max-height: 220px;
-  overflow-y: auto;
-}
-
-.filters-list-row {
-  text-align: left;
-  font-family: var(--font-body);
-  font-size: 15px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  background: var(--color-white);
-  color: var(--color-text);
-  cursor: pointer;
-}
-
-.filters-list-row.active {
-  border-color: var(--color-blue);
-  background: rgba(91, 141, 239, 0.08);
-  color: var(--color-blue);
   font-weight: 600;
 }
 

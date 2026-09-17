@@ -1,0 +1,18 @@
+.leaflet-bar a.map-style-toggle-button {
+  display: block;
+  width: auto;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 10px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-white);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.leaflet-bar a.map-style-toggle-button:hover {
+  background: #f4f4f4;
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CATEGORIES } from '../lib/categories'
+import { useCategories } from '../lib/CategoriesContext'
 import './Filters.css'
 
 export default function Filters({
@@ -10,8 +10,9 @@ export default function Filters({
   authors,
 }) {
   const [open, setOpen] = useState(false)
+  const { categories } = useCategories()
 
-  const activeCount = categoryFilter.length + (authorFilter !== 'all' ? 1 : 0)
+  const activeCount = categoryFilter.length + authorFilter.length
 
   function toggleCategory(value) {
     onCategoryChange(
@@ -19,6 +20,17 @@ export default function Filters({
         ? categoryFilter.filter((c) => c !== value)
         : [...categoryFilter, value],
     )
+  }
+
+  function toggleAuthor(id) {
+    onAuthorChange(
+      authorFilter.includes(id) ? authorFilter.filter((a) => a !== id) : [...authorFilter, id],
+    )
+  }
+
+  function clearAll() {
+    onCategoryChange([])
+    onAuthorChange([])
   }
 
   return (
@@ -34,7 +46,14 @@ export default function Filters({
         <div className="filters-sheet-backdrop" onClick={() => setOpen(false)}>
           <div className="filters-sheet" onClick={(e) => e.stopPropagation()}>
             <div className="filters-sheet-handle" />
-            <h2 className="filters-sheet-heading gradient-text">Filters</h2>
+            <div className="filters-sheet-heading-row">
+              <h2 className="filters-sheet-heading gradient-text">Filters</h2>
+              {activeCount > 0 && (
+                <button type="button" className="filters-clear" onClick={clearAll}>
+                  Clear filters
+                </button>
+              )}
+            </div>
 
             <p className="filters-sheet-label">Category (matches any selected)</p>
             <div className="filters-chip-row">
@@ -45,7 +64,7 @@ export default function Filters({
               >
                 All
               </button>
-              {CATEGORIES.map((category) => (
+              {categories.map((category) => (
                 <button
                   key={category.value}
                   type="button"
@@ -59,12 +78,12 @@ export default function Filters({
               ))}
             </div>
 
-            <p className="filters-sheet-label">Added by</p>
-            <div className="filters-list">
+            <p className="filters-sheet-label">Added by (matches any selected)</p>
+            <div className="filters-chip-row">
               <button
                 type="button"
-                className={authorFilter === 'all' ? 'filters-list-row active' : 'filters-list-row'}
-                onClick={() => onAuthorChange('all')}
+                className={authorFilter.length === 0 ? 'filters-chip active' : 'filters-chip'}
+                onClick={() => onAuthorChange([])}
               >
                 Everyone
               </button>
@@ -72,8 +91,8 @@ export default function Filters({
                 <button
                   key={author.id}
                   type="button"
-                  className={authorFilter === author.id ? 'filters-list-row active' : 'filters-list-row'}
-                  onClick={() => onAuthorChange(author.id)}
+                  className={authorFilter.includes(author.id) ? 'filters-chip active' : 'filters-chip'}
+                  onClick={() => toggleAuthor(author.id)}
                 >
                   {author.name}
                 </button>
