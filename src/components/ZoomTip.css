@@ -1,0 +1,35 @@
+.zoom-tip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-blue);
+  padding: 10px 14px;
+  /* This only ever shows in standalone mode, where the top inset is
+     genuinely nonzero — same reasoning as the header's own safe-area
+     padding elsewhere in the app. */
+  padding-top: calc(10px + env(safe-area-inset-top));
+}
+
+.zoom-tip-text {
+  flex: 1;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+.zoom-tip-dismiss {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-white);
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}

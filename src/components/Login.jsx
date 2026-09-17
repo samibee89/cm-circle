@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import InstallBanner from './InstallBanner'
+import ZoomTip from './ZoomTip'
 import './Login.css'
 
 export default function Login() {
@@ -41,54 +42,58 @@ export default function Login() {
 
   return (
     <div className="login-screen">
-      <form onSubmit={handleSubmit} className="login-form">
-        <p className="login-label">CM Circle</p>
-        <h1 className="login-heading gradient-text">
-          {mode === 'signUp' ? 'Create your account' : 'Welcome back'}
-        </h1>
+      <ZoomTip />
 
-        {mode === 'signUp' && (
+      <div className="login-form-wrapper">
+        <form onSubmit={handleSubmit} className="login-form">
+          <p className="login-label">CM Circle</p>
+          <h1 className="login-heading gradient-text">
+            {mode === 'signUp' ? 'Create your account' : 'Welcome back'}
+          </h1>
+
+          {mode === 'signUp' && (
+            <input
+              type="text"
+              placeholder="Display name"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              required
+            />
+          )}
           <input
-            type="text"
-            placeholder="Display name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
-        )}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={6}
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+          />
 
-        {error && <p className="login-error">{error}</p>}
-        {message && <p className="login-message">{message}</p>}
+          {error && <p className="login-error">{error}</p>}
+          {message && <p className="login-message">{message}</p>}
 
-        <button type="submit" disabled={loading}>
-          {loading ? 'Please wait…' : mode === 'signUp' ? 'Sign up' : 'Sign in'}
-        </button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Please wait…' : mode === 'signUp' ? 'Sign up' : 'Sign in'}
+          </button>
 
-        <button
-          type="button"
-          className="login-toggle"
-          onClick={() => setMode(mode === 'signUp' ? 'signIn' : 'signUp')}
-        >
-          {mode === 'signUp'
-            ? 'Already have an account? Sign in'
-            : "Don't have an account? Sign up"}
-        </button>
-      </form>
+          <button
+            type="button"
+            className="login-toggle"
+            onClick={() => setMode(mode === 'signUp' ? 'signIn' : 'signUp')}
+          >
+            {mode === 'signUp'
+              ? 'Already have an account? Sign in'
+              : "Don't have an account? Sign up"}
+          </button>
+        </form>
+      </div>
 
       <InstallBanner />
     </div>

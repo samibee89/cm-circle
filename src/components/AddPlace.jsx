@@ -32,7 +32,7 @@ function RecenterOnPosition({ position }) {
 
 export default function AddPlace({ onSave, onCancel }) {
   const [name, setName] = useState('')
-  const [category, setCategory] = useState(CATEGORIES[0])
+  const [categories, setCategories] = useState([])
   const [note, setNote] = useState('')
   const [position, setPosition] = useState(null)
   const [query, setQuery] = useState('')
@@ -73,6 +73,12 @@ export default function AddPlace({ onSave, onCancel }) {
     if (!name) setName(result.display_name.split(',')[0])
   }
 
+  function toggleCategory(value) {
+    setCategories((current) =>
+      current.includes(value) ? current.filter((c) => c !== value) : [...current, value],
+    )
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     setError(null)
@@ -81,12 +87,16 @@ export default function AddPlace({ onSave, onCancel }) {
       setError('Drop a pin or search for an address first.')
       return
     }
+    if (categories.length === 0) {
+      setError('Select at least one category.')
+      return
+    }
 
     setSaving(true)
     try {
       await onSave({
         name,
-        category,
+        category: categories,
         note: note || null,
         lat: position.lat,
         lng: position.lng,
@@ -157,13 +167,22 @@ export default function AddPlace({ onSave, onCancel }) {
           required
         />
 
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <div className="add-place-category-row">
           {CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c.charAt(0).toUpperCase() + c.slice(1)}
-            </option>
+            <button
+              key={c.value}
+              type="button"
+              className={
+                categories.includes(c.value)
+                  ? 'add-place-category-chip active'
+                  : 'add-place-category-chip'
+              }
+              onClick={() => toggleCategory(c.value)}
+            >
+              {c.emoji} {c.label}
+            </button>
           ))}
-        </select>
+        </div>
 
         <textarea
           placeholder="Note (optional)"

@@ -2,10 +2,6 @@ import { useState } from 'react'
 import { CATEGORIES } from '../lib/categories'
 import './Filters.css'
 
-function capitalize(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1)
-}
-
 export default function Filters({
   categoryFilter,
   onCategoryChange,
@@ -15,7 +11,15 @@ export default function Filters({
 }) {
   const [open, setOpen] = useState(false)
 
-  const activeCount = (categoryFilter !== 'all' ? 1 : 0) + (authorFilter !== 'all' ? 1 : 0)
+  const activeCount = categoryFilter.length + (authorFilter !== 'all' ? 1 : 0)
+
+  function toggleCategory(value) {
+    onCategoryChange(
+      categoryFilter.includes(value)
+        ? categoryFilter.filter((c) => c !== value)
+        : [...categoryFilter, value],
+    )
+  }
 
   return (
     <>
@@ -32,23 +36,25 @@ export default function Filters({
             <div className="filters-sheet-handle" />
             <h2 className="filters-sheet-heading gradient-text">Filters</h2>
 
-            <p className="filters-sheet-label">Category</p>
+            <p className="filters-sheet-label">Category (matches any selected)</p>
             <div className="filters-chip-row">
               <button
                 type="button"
-                className={categoryFilter === 'all' ? 'filters-chip active' : 'filters-chip'}
-                onClick={() => onCategoryChange('all')}
+                className={categoryFilter.length === 0 ? 'filters-chip active' : 'filters-chip'}
+                onClick={() => onCategoryChange([])}
               >
                 All
               </button>
               {CATEGORIES.map((category) => (
                 <button
-                  key={category}
+                  key={category.value}
                   type="button"
-                  className={categoryFilter === category ? 'filters-chip active' : 'filters-chip'}
-                  onClick={() => onCategoryChange(category)}
+                  className={
+                    categoryFilter.includes(category.value) ? 'filters-chip active' : 'filters-chip'
+                  }
+                  onClick={() => toggleCategory(category.value)}
                 >
-                  {capitalize(category)}
+                  {category.emoji} {category.label}
                 </button>
               ))}
             </div>

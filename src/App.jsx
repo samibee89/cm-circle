@@ -17,7 +17,9 @@ function App() {
   }, [])
 
   if (session === undefined) {
-    return null
+    // Never render truly empty here — see the comment on the static
+    // placeholder in index.html for why (iOS standalone zoom bug).
+    return <div style={{ height: '100%', width: '100%', background: '#ffffff' }} />
   }
 
   return session ? <AppShell session={session} /> : <Login />

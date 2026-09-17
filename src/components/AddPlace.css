@@ -45,7 +45,6 @@
 
 .add-place-search input,
 .add-place-form input,
-.add-place-form select,
 .add-place-form textarea {
   width: 100%;
   font-family: var(--font-body);
@@ -96,6 +95,30 @@
 .add-place-map {
   border-radius: 10px;
   overflow: hidden;
+}
+
+.add-place-category-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.add-place-category-chip {
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: var(--color-white);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.add-place-category-chip.active {
+  border: none;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  font-weight: 600;
 }
 
 .add-place-form {

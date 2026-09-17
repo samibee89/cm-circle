@@ -7,13 +7,14 @@ import AddPlace from './AddPlace'
 import Filters from './Filters'
 import BottomNav from './BottomNav'
 import Profile from './Profile'
+import ZoomTip from './ZoomTip'
 import { getInitials } from '../lib/initials'
 import './AppShell.css'
 
 export default function AppShell({ session }) {
   const [places, setPlaces] = useState([])
   const [activeTab, setActiveTab] = useState('map') // 'map' | 'list' | 'add' | 'profile'
-  const [categoryFilter, setCategoryFilter] = useState('all')
+  const [categoryFilter, setCategoryFilter] = useState([]) // empty = no category filter
   const [authorFilter, setAuthorFilter] = useState('all')
   const displayName = session.user.user_metadata?.display_name ?? 'Unknown'
   // Header, filters, and bottom nav are all hidden on the two focused,
@@ -42,7 +43,10 @@ export default function AppShell({ session }) {
   // is what keeps them in sync: neither view has its own filter logic.
   const filteredPlaces = useMemo(() => {
     return places.filter((place) => {
-      if (categoryFilter !== 'all' && place.category !== categoryFilter) return false
+      // A place matches if it has ANY of the selected categories, not all.
+      if (categoryFilter.length > 0 && !place.category.some((c) => categoryFilter.includes(c))) {
+        return false
+      }
       if (authorFilter !== 'all' && place.created_by !== authorFilter) return false
       return true
     })
@@ -56,6 +60,8 @@ export default function AppShell({ session }) {
 
   return (
     <div className="app-shell">
+      <ZoomTip />
+
       {showChrome && (
         <header className="app-header">
           <div className="app-header-titles">

@@ -27,7 +27,15 @@
     <title>CM Circle</title>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Never leave #root truly empty at first paint — on iOS standalone
+         launches specifically (no browser chrome providing a stable
+         layout reference, unlike a Safari tab), a genuinely blank paint
+         while JS loads/the auth check resolves can cause the WebView to
+         compute the wrong initial zoom scale, only fixable by a manual
+         pinch. This placeholder is replaced the instant React mounts. -->
+    <div id="root">
+      <div style="height: 100%; width: 100%; background: #ffffff;"></div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

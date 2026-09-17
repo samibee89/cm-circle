@@ -1,4 +1,5 @@
 import PlaceMetaDetails from './PlaceMetaDetails'
+import CategoryBadges from './CategoryBadges'
 
 export default function PlaceListItem({ place, expanded, onToggle }) {
   return (
@@ -10,7 +11,7 @@ export default function PlaceListItem({ place, expanded, onToggle }) {
     >
       <div className="place-list-card-header">
         <h3 className="place-list-card-name">{place.name}</h3>
-        <span className="place-list-card-category">{place.category}</span>
+        <CategoryBadges categories={place.category} />
       </div>
 
       {place.note && (
