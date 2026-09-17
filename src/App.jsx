@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabaseClient'
 import Login from './components/Login'
-import MapView from './components/MapView'
+import AppShell from './components/AppShell'
 
 function App() {
   const [session, setSession] = useState(undefined) // undefined = still checking
@@ -20,7 +20,7 @@ function App() {
     return null
   }
 
-  return session ? <MapView onSignOut={() => supabase.auth.signOut()} /> : <Login />
+  return session ? <AppShell session={session} /> : <Login />
 }
 
 export default App

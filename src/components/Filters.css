@@ -1,0 +1,18 @@
+.filters {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.filters select {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: var(--color-white);
+  color: var(--color-text);
+}

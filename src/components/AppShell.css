@@ -1,0 +1,36 @@
+.app-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.app-header-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+.app-header-signout {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-blue);
+  cursor: pointer;
+}
+
+.app-main {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}

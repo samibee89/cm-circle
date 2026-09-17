@@ -1,0 +1,49 @@
+.place-card {
+  font-family: var(--font-body);
+  max-width: 220px;
+}
+
+.place-card-name {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  margin: 0 0 4px;
+  color: var(--color-text);
+}
+
+.place-card-category {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-pink);
+  margin: 0 0 8px;
+}
+
+.place-card-note {
+  font-size: 14px;
+  margin: 0 0 8px;
+  color: var(--color-text);
+}
+
+.place-card-author {
+  font-size: 12px;
+  color: #777;
+  margin: 0 0 8px;
+}
+
+.place-card-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.place-card-links a {
+  font-size: 13px;
+  color: var(--color-blue);
+  text-decoration: none;
+}
+
+.place-card-links a:hover {
+  text-decoration: underline;
+}

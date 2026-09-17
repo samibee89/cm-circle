@@ -1,0 +1,53 @@
+.bottom-nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 60px;
+  background: var(--color-white);
+  border-top: 1px solid #eee;
+  /* Keeps the bar clear of the home-indicator area on notched iPhones when
+     this is installed as a PWA. */
+  padding-bottom: env(safe-area-inset-bottom);
+  position: relative;
+  /* Leaflet's internal layers are positioned elements with their own
+     z-index (tile/marker panes up to 400, zoom controls at 1000) — any
+     positioned element paints above a non-positioned one regardless of
+     DOM order, so this bar needs its own z-index clearly above Leaflet's
+     highest (1000) to stay on top of the map on every tab. */
+  z-index: 2000;
+}
+
+.nav-tab {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #999;
+  cursor: pointer;
+}
+
+.nav-tab.active {
+  color: var(--color-blue);
+  font-weight: 600;
+}
+
+.nav-add-fab {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  font-size: 28px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translateY(-14px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
