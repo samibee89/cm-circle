@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
-import InstallBanner from './InstallBanner'
-import ZoomTip from './ZoomTip'
+import InstallPrompt from './InstallPrompt'
 import './Login.css'
 
 export default function Login() {
@@ -42,7 +41,7 @@ export default function Login() {
 
   return (
     <div className="login-screen">
-      <ZoomTip />
+      <InstallPrompt />
 
       <div className="login-form-wrapper">
         <form onSubmit={handleSubmit} className="login-form">
@@ -94,8 +93,6 @@ export default function Login() {
           </button>
         </form>
       </div>
-
-      <InstallBanner />
     </div>
   )
 }

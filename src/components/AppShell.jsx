@@ -7,7 +7,7 @@ import AddPlace from './AddPlace'
 import Filters from './Filters'
 import BottomNav from './BottomNav'
 import Profile from './Profile'
-import ZoomTip from './ZoomTip'
+import InstallPrompt from './InstallPrompt'
 import { getInitials } from '../lib/initials'
 import { CategoriesProvider } from '../lib/CategoriesContext'
 import './AppShell.css'
@@ -63,7 +63,7 @@ export default function AppShell({ session }) {
   return (
     <CategoriesProvider>
       <div className="app-shell">
-        <ZoomTip />
+        <InstallPrompt />
 
         {showChrome && (
           <header className="app-header">
