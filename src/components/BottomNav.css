@@ -1,13 +1,16 @@
 .bottom-nav {
   flex-shrink: 0;
   display: flex;
-  align-items: stretch;
   justify-content: space-around;
-  height: 76px;
   background: var(--color-white);
   border-top: 1px solid #eee;
-  /* Keeps the bar clear of the home-indicator area on notched iPhones when
-     this is installed as a PWA. */
+  /* No fixed height here — the bar sizes itself from nav-tab's own
+     padding below. A fixed height combined with this padding would make
+     env(safe-area-inset-bottom) EAT INTO that fixed budget rather than
+     add to it — exactly what was squeezing (and visually shrinking) the
+     icons in real standalone mode, where this value is genuinely nonzero
+     unlike in a Safari tab (where Safari's own chrome already reserves
+     that space, so it's ~0 there). */
   padding-bottom: env(safe-area-inset-bottom);
   position: relative;
   /* Leaflet's internal layers are positioned elements with their own
@@ -20,15 +23,15 @@
 
 .nav-tab {
   flex: 1;
-  /* Bar height (64px) and flex width already exceed the 44x44px minimum
-     comfortably; this is just an explicit floor per the accessibility
-     guideline, in case either changes later. */
+  /* Content-driven height (padding + icon + label) already comfortably
+     exceeds the 44x44px minimum tap-target guideline; this is just an
+     explicit floor in case that ever changes. */
   min-height: 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 12px;
+  justify-content: center;
+  padding: 14px 4px 12px;
   gap: 4px;
   border: none;
   background: none;
@@ -36,6 +39,10 @@
   font-size: 13px;
   color: #999;
   cursor: pointer;
+}
+
+.nav-tab svg {
+  flex-shrink: 0;
 }
 
 .nav-tab.active {
