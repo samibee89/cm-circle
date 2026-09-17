@@ -13,13 +13,18 @@
          renders light-colored system icons, which would go unreadable
          against a light header. -->
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <!-- iOS reads this for the home-screen icon label instead of the
+         manifest — without it, "Add to Home Screen" falls back to
+         whatever <title> says, so this has to be kept in sync with the
+         manifest's name/short_name separately. -->
+    <meta name="apple-mobile-web-app-title" content="CM Circle" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <title>Women's Circle</title>
+    <title>CM Circle</title>
   </head>
   <body>
     <div id="root"></div>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import InstallBanner from './InstallBanner'
 import './Login.css'
 
 export default function Login() {
@@ -41,7 +42,7 @@ export default function Login() {
   return (
     <div className="login-screen">
       <form onSubmit={handleSubmit} className="login-form">
-        <p className="login-label">Women's Circle</p>
+        <p className="login-label">CM Circle</p>
         <h1 className="login-heading gradient-text">
           {mode === 'signUp' ? 'Create your account' : 'Welcome back'}
         </h1>
@@ -88,6 +89,8 @@ export default function Login() {
             : "Don't have an account? Sign up"}
         </button>
       </form>
+
+      <InstallBanner />
     </div>
   )
 }
