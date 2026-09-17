@@ -1,0 +1,19 @@
+/* VA on the Go brand tokens — see vaonthego_brand_brief.md */
+:root {
+  /* Palette */
+  --color-black: #1a1a1a;
+  --color-white: #ffffff;
+  --color-blue: #5b8def;
+  --color-pink: #e893c0;
+  --gradient-primary: linear-gradient(120deg, var(--color-blue), var(--color-pink));
+
+  /* Semantic aliases (use these in components) */
+  --color-text: var(--color-black);
+  --color-bg: var(--color-white);
+  --color-accent: var(--color-blue);
+  --color-accent-alt: var(--color-pink);
+
+  /* Fonts */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+}
