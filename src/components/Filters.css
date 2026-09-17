@@ -11,8 +11,14 @@
   font-family: var(--font-body);
   font-size: 14px;
   padding: 8px 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-blue);
   border-radius: 8px;
   background: var(--color-white);
   color: var(--color-text);
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.25);
 }
