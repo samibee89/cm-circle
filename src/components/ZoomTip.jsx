@@ -28,14 +28,24 @@ export default function ZoomTip() {
   if (!visible) return null
 
   return (
-    <div className="zoom-tip">
-      <p className="zoom-tip-text">
-        Looking too zoomed in? Pinch with two fingers to zoom out slightly — it'll stay
-        that way after.
-      </p>
-      <button type="button" className="zoom-tip-dismiss" onClick={handleDismiss}>
-        Got it
-      </button>
+    <div className="zoom-tip-backdrop">
+      <div className="zoom-tip-modal">
+        <button
+          type="button"
+          className="zoom-tip-close"
+          onClick={handleDismiss}
+          aria-label="Dismiss"
+        >
+          ×
+        </button>
+        <p className="zoom-tip-text">
+          Looking too zoomed in? Pinch with two fingers to zoom out slightly — it'll stay
+          that way after.
+        </p>
+        <button type="button" className="zoom-tip-dismiss" onClick={handleDismiss}>
+          Got it
+        </button>
+      </div>
     </div>
   )
 }

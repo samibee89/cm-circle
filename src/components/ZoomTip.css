@@ -1,35 +1,61 @@
-.zoom-tip {
-  flex-shrink: 0;
+.zoom-tip-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  /* Above everything else in the app, including the filter sheet
+     (3000) and bottom nav (2000) — this needs to stay visible no matter
+     what else is on screen, including during the zoom bug it warns
+     about, which is exactly why it's a centered fixed overlay rather
+     than a banner anchored to a document-flow position. */
+  z-index: 4000;
+}
+
+.zoom-tip-modal {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
   background: var(--color-white);
-  border-bottom: 1px solid var(--color-blue);
-  padding: 10px 14px;
-  /* This only ever shows in standalone mode, where the top inset is
-     genuinely nonzero — same reasoning as the header's own safe-area
-     padding elsewhere in the app. */
-  padding-top: calc(10px + env(safe-area-inset-top));
+  border-radius: 20px;
+  padding: 28px 20px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.zoom-tip-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
 }
 
 .zoom-tip-text {
-  flex: 1;
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.4;
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--color-text);
   font-family: var(--font-body);
 }
 
 .zoom-tip-dismiss {
-  flex-shrink: 0;
+  width: 100%;
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--color-white);
   background: var(--gradient-primary);
   border: none;
   border-radius: 999px;
-  padding: 8px 14px;
+  padding: 12px;
   cursor: pointer;
 }
