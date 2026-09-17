@@ -15,8 +15,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'CM Circle',
-        short_name: 'CM Circle',
+        name: "Women's Circle",
+        short_name: "Women's Circle",
         description: 'A shared places journal for Chiang Mai',
         theme_color: '#5b8def',
         background_color: '#ffffff',

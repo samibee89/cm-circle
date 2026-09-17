@@ -14,7 +14,7 @@
      standalone PWA (a no-op with the "default" status-bar style, but
      harmless to leave in place). */
   padding-top: calc(14px + env(safe-area-inset-top));
-  background: var(--color-surface-muted);
+  background: var(--color-white);
 }
 
 .app-header-label {
@@ -33,14 +33,21 @@
   margin: 0;
 }
 
-.app-header-signout {
-  background: none;
+.app-header-avatar {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   border: none;
+  background: var(--gradient-primary);
+  color: var(--color-white);
   font-family: var(--font-body);
+  font-weight: 700;
   font-size: 13px;
-  color: var(--color-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  margin-top: 4px;
 }
 
 .app-main {

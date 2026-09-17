@@ -6,13 +6,20 @@ import PlaceList from './PlaceList'
 import AddPlace from './AddPlace'
 import Filters from './Filters'
 import BottomNav from './BottomNav'
+import Profile from './Profile'
+import { getInitials } from '../lib/initials'
 import './AppShell.css'
 
 export default function AppShell({ session }) {
   const [places, setPlaces] = useState([])
-  const [activeTab, setActiveTab] = useState('map') // 'map' | 'list' | 'add'
+  const [activeTab, setActiveTab] = useState('map') // 'map' | 'list' | 'add' | 'profile'
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [authorFilter, setAuthorFilter] = useState('all')
+  const displayName = session.user.user_metadata?.display_name ?? 'Unknown'
+  // Header, filters, and bottom nav are all hidden on the two focused,
+  // full-screen flows (Add, Profile) — this one flag keeps that condition
+  // from being repeated three times with room to drift out of sync.
+  const showChrome = activeTab === 'map' || activeTab === 'list'
 
   useEffect(() => {
     fetchPlaces().then(setPlaces).catch(console.error)
@@ -49,23 +56,24 @@ export default function AppShell({ session }) {
 
   return (
     <div className="app-shell">
-      {activeTab !== 'add' && (
+      {showChrome && (
         <header className="app-header">
           <div className="app-header-titles">
             <p className="app-header-label">Chiang Mai</p>
-            <h1 className="app-header-title gradient-text">Friendship Circle</h1>
+            <h1 className="app-header-title gradient-text">Women's Circle</h1>
           </div>
           <button
             type="button"
-            className="app-header-signout"
-            onClick={() => supabase.auth.signOut()}
+            className="app-header-avatar"
+            onClick={() => setActiveTab('profile')}
+            aria-label="Open profile"
           >
-            Sign out
+            {getInitials(displayName)}
           </button>
         </header>
       )}
 
-      {activeTab !== 'add' && (
+      {showChrome && (
         <Filters
           categoryFilter={categoryFilter}
           onCategoryChange={setCategoryFilter}
@@ -93,9 +101,16 @@ export default function AppShell({ session }) {
         {activeTab === 'add' && (
           <AddPlace onSave={handleAddPlace} onCancel={() => setActiveTab('map')} />
         )}
+        {activeTab === 'profile' && (
+          <Profile
+            displayName={displayName}
+            onSignOut={() => supabase.auth.signOut()}
+            onClose={() => setActiveTab('map')}
+          />
+        )}
       </main>
 
-      {activeTab !== 'add' && <BottomNav activeTab={activeTab} onChange={setActiveTab} />}
+      {showChrome && <BottomNav activeTab={activeTab} onChange={setActiveTab} />}
     </div>
   )
 }
